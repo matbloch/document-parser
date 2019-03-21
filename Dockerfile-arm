@@ -1,0 +1,21 @@
+# Flask container for ARMv7 architectures
+FROM arm32v7/python:3.6-stretch
+LABEL maintainer="M.B"
+
+RUN apt-get update && apt-get install -y \
+  antiword \
+  catdoc \
+  git \
+  pkg-config \
+  libpoppler-private-dev \
+  libpoppler-cpp-dev \
+  python-pip && pip install --upgrade setuptools cython
+
+# Install pdf parser
+RUN pip install git+https://github.com/izderadicka/pdfparser
+
+# Place app in container.
+COPY . /app
+
+# install requirements
+RUN pip install -r /app/requirements.txt
